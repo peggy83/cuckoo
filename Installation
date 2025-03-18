@@ -114,5 +114,6 @@ mkvirtualenv -p python2.7 cuckoo-test
 
 pip install -U pip setuptools
 pip2.7 install -U cuckoo
+pip install bz2file
 
 sudo su cuckoo
