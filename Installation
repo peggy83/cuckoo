@@ -17,6 +17,10 @@ python --version
 
 sudo apt-get install python python-pip python-dev libffi-dev libssl-dev -y
 #nok
+sudo apt update
+curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
+sudo python get-pip.py
+#ok
 sudo apt-get install python-virtualenv python-setuptools -y
 #nok
 sudo apt-get install libjpeg-dev zlib1g-dev swig -y
@@ -52,3 +56,63 @@ sudo setcap cap_net_raw,cap_net_admin=eip /usr/bin/tcpdump
 getcap /usr/bin/tcpdump
 sudo aa-disable /usr/sbin/tcpdump
 # rq disabling tcpdump ??? 
+
+sudo apt-get install swig
+#ok
+sudo pip install m2crypto
+#nok
+sudo usermod -a -G vboxusers cuckoo
+#ok
+sudo apt install libguac-client-rdp0 libguac-client-vnc0 libguac-client-ssh0 guacd
+
+
+sudo pip install -U pip setuptools
+sudo pip install -U cuckoo
+
+#depuis /home/user/
+mkdir opt
+cd opt
+vim cuckoo-setup-virtualenv.sh
+#copier le contenu suivant
+#!/usr/bin/env bash
+
+# NOTES: Run this script as: sudo -u <USERNAME> cuckoo-setup-virtualenv.sh
+
+# install virtualenv
+sudo apt-get update && sudo apt-get -y install virtualenv
+
+# install virtualenvwrapper
+sudo apt-get -y install virtualenvwrapper
+
+echo "source /usr/share/virtualenvwrapper/virtualenvwrapper.sh" >> ~/.bashrc
+
+# install pip for python3
+sudo apt-get -y install python3-pip
+
+# turn on bash auto-complete for pip
+pip3 completion --bash >> ~/.bashrc
+
+# avoid installing with root
+pip3 install --user virtualenvwrapper
+
+echo "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3" >> ~/.bashrc
+
+echo "source ~/.local/bin/virtualenvwrapper.sh" >> ~/.bashrc
+
+export WORKON_HOME=~/.virtualenvs
+
+echo "export WORKON_HOME=~/.virtualenvs" >> ~/.bashrc
+
+echo "export PIP_VIRTUALENV_BASE=~/.virtualenvs" >> ~/.bashrc 
+--------------------------
+sudo chmod +x cuckoo-setup-virtualenv.sh
+sudo -u cuckoo_user ./cuckoo-setup-virtualenv.sh
+source ~/.bashrc
+source ~/.bashrc
+
+mkvirtualenv -p python2.7 cuckoo-test
+
+pip install -U pip setuptools
+pip2.7 install -U cuckoo
+
+sudo su cuckoo
